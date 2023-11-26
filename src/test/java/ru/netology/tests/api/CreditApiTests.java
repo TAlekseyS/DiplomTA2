@@ -9,176 +9,175 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class CreditApiTests extends BaseApiTest {
 
     @Test
-    @DisplayName("Успешная оплата тура в кредит принимаемой кредитной картой с валидными данными формы")
-    void testCardTourPurchaseApprovedCard() {
+    @DisplayName("Оплата тура рабочей картой в Кредит с валидными вводными данными - Выполняется")
+    void testBuyingTourOnCardApproved() {
         Response response = RestRequestHelper.sendRequest(
-                DataHelper.approvedCardFormData(), creditOperationPath,  Constants.HTTP_OK);
+                DataHelper.approvedFormOfCardData(), creditOperationPath,  Constants.HTTP_OK);
 
         assertEquals(Constants.APPROVED_STATUS, response.jsonPath().get("status"));
-        assertEquals(Constants.APPROVED_STATUS, DataHelper.getCreditOperationStatus());
+        assertEquals(Constants.APPROVED_STATUS, DataHelper.getStatusOfBuingOnCreditTransaction());
 
     }
 
     @Test
-    @DisplayName("Отказ при попытке оплатить тур в кредит непринимаемой картой")
-    void testCardTourPurchaseDeclinedCard() {
+    @DisplayName("Оплата тура в  Кредит нерабочей картой - Не выполняется")
+    void testBuyingTourOnDeclinedCard() {
         Response response = RestRequestHelper.sendRequest(
                 DataHelper.declinedCardFormData(), creditOperationPath, Constants.HTTP_OK);
 
         assertEquals(Constants.DECLINED_STATUS, response.jsonPath().get("status"));
-        assertEquals(Constants.DECLINED_STATUS, DataHelper.getCreditOperationStatus());
+        assertEquals(Constants.DECLINED_STATUS, DataHelper.getStatusOfBuingOnCreditTransaction());
     }
 
     @Test
-    @DisplayName("Отказ при попытке оплатить тур в кредит с номером карты в 1 символ")
-    void testCardTourPurchaseSendErrorForSingleCharacterCardNumber() {
+    @DisplayName("Оплата тура в Кредит картой с номером в один символ - Не выполняется")
+    void testBuyingTourByCardWithOnlyOneSymbolInNumber() {
         Response response = RestRequestHelper.sendRequest(
-                DataHelper.oneCharacterCardNumberFormData(), creditOperationPath, Constants.INTERNAL_ERROR);
+                DataHelper.oneSymbolFormDataNumberOfCard(), creditOperationPath, Constants.INTERNAL_ERROR);
 
         assertEquals(Constants.BAD_REQUEST_MESSAGE, response.jsonPath().get("message"));
-        assertEquals(Constants.DECLINED_STATUS, DataHelper.getCreditOperationStatus());
+        assertEquals(Constants.DECLINED_STATUS, DataHelper.getStatusOfBuingOnCreditTransaction());
     }
 
     @Test
-    @DisplayName("Отказ при попытке оплатить тур в кредит случайной картой с неверным двузначным форматом 'месяц'")
-    void testCardTourPurchaseSendErrorForWrongFormatCardMonth() {
+    @DisplayName("Оплата тура в Кредит картой с форматом 'месяц' больше 12 - Не выполняется")
+    void testBuyingTourByCardWithUnExistantMonth() {
         Response response = RestRequestHelper.sendRequest(
-                DataHelper.wrongCardMonthFormData(), creditOperationPath, Constants.INTERNAL_ERROR);
-
-        assertEquals(Constants.BAD_REQUEST_MESSAGE, response.jsonPath().get("message"));
-    }
-
-    @Test
-    @DisplayName("Отказ при попытке оплатить тур в кредит случайной картой с трехзначным форматом параметра 'год'")
-    void testCardTourPurchaseSendErrorForWrongFormatCardYear() {
-        Response response = RestRequestHelper.sendRequest(
-                DataHelper.wrongCardYearFormData(), creditOperationPath, Constants.INTERNAL_ERROR);
-
+                DataHelper.formDataOfCardMonthIsWrong (), creditOperationPath, Constants.INTERNAL_ERROR);
         assertEquals(Constants.BAD_REQUEST_MESSAGE, response.jsonPath().get("message"));
     }
 
     @Test
-    @DisplayName("Отказ при попытке оплатить тур в кредит  валидной картой с истекшим параметром 'год'")
-    void testCardTourPurchaseSendErrorForExpiredCardYear() {
+    @DisplayName("Оплата тура в Кредит картой с форматом 'год' из  трех цифр - Не выполняется")
+    void testBuyingTourByCardWithOnlyThreeFigureOnYear() {
         Response response = RestRequestHelper.sendRequest(
-                DataHelper.approvedCardFormDataWithApprovedPreviousYear(), creditOperationPath, Constants.INTERNAL_ERROR);
+                DataHelper.formDataOfCardYearsIsWrong (), creditOperationPath, Constants.INTERNAL_ERROR);
 
         assertEquals(Constants.BAD_REQUEST_MESSAGE, response.jsonPath().get("message"));
     }
 
     @Test
-    @DisplayName("Отказ при попытке оплатить картой тур в кредит  с именем владельца из одного слова")
-    void testCardTourPurchaseSendErrorForWrongFormatCardHolder() {
+    @DisplayName("Оплата тура в Кредит рабочей картой с форматом просроченным полем 'год' - Не выполняется")
+    void testBuyingTourByCardWithOverdueFormYear() {
         Response response = RestRequestHelper.sendRequest(
-                DataHelper.wrongCardHolderFormData(), creditOperationPath, Constants.INTERNAL_ERROR);
+                DataHelper.approvedFormOfCardDataAndEarlyYear(), creditOperationPath, Constants.INTERNAL_ERROR);
 
         assertEquals(Constants.BAD_REQUEST_MESSAGE, response.jsonPath().get("message"));
     }
 
     @Test
-    @DisplayName("Отказ при попытке оплатить картой тур в кредит именем владельца карты на кириллице")
-    void testCardTourPurchaseSendErrorForCyrillicCardHolder() {
+    @DisplayName("Оплата тура в Кредит картой с полем именем владельца из одного слова - Не выполняется")
+    void testBuyingTourByCardWithOnlyOneWordOnNameOwner() {
         Response response = RestRequestHelper.sendRequest(
-                DataHelper.cyrillicCardHolderFormData(), creditOperationPath, Constants.INTERNAL_ERROR);
+                DataHelper.formDataOfCardOwnerIsFalse(), creditOperationPath, Constants.INTERNAL_ERROR);
 
         assertEquals(Constants.BAD_REQUEST_MESSAGE, response.jsonPath().get("message"));
     }
 
     @Test
-    @DisplayName("Отказ при попытке оплатить картой тур в кредит  с именем владельца карты цифрами")
-    void testCardTourPurchaseErrorForNumbersCardHolder() {
+    @DisplayName("Оплата тура в Кредит картой с полем именем владельца на русском языке - Не выполняется")
+    void testBuyingTourByCardWithRussianSymbolsInNameOwner() {
         Response response = RestRequestHelper.sendRequest(
-                DataHelper.numbersCardHolderFormData(), creditOperationPath, Constants.INTERNAL_ERROR);
+                DataHelper.formDataOfCardOwnerIsRusLanguage(), creditOperationPath, Constants.INTERNAL_ERROR);
 
         assertEquals(Constants.BAD_REQUEST_MESSAGE, response.jsonPath().get("message"));
     }
 
     @Test
-    @DisplayName("Отказ при попытке оплатить картой тур в кредит  с именем владельца карты в один символ")
-    void testCardTourPurchaseErrorForOneCharacterCardHolder() {
+    @DisplayName("Оплата тура в Кредит картой с полем именем владельца из цифр - Не выполняется")
+    void testBuyingTourByCardWithFigureSymbolsInNameOwner() {
         Response response = RestRequestHelper.sendRequest(
-                DataHelper.oneCharacterCardHolderFormData(), creditOperationPath, Constants.INTERNAL_ERROR);
+                DataHelper.formDataOfCardOwnerIsNumbers(), creditOperationPath, Constants.INTERNAL_ERROR);
 
         assertEquals(Constants.BAD_REQUEST_MESSAGE, response.jsonPath().get("message"));
     }
 
     @Test
-    @DisplayName("Отказ при попытке оплатить картой тур в кредит  с именем владельца карты с спец символом")
-    void testCardTourPurchaseSpecSymbolsCardHolder() {
+    @DisplayName("Оплата тура в Кредит картой с полем именем владельца из одного символа - Не выполняется")
+    void testBuyingTourByCardWithOnlyOneSymbolsInNameOwner() {
         Response response = RestRequestHelper.sendRequest(
-                DataHelper.specSymbolsCardHolderFormData(), creditOperationPath, Constants.INTERNAL_ERROR);
+                DataHelper.formDataOfCardOwnerIsOnlyOneSymbol(), creditOperationPath, Constants.INTERNAL_ERROR);
 
         assertEquals(Constants.BAD_REQUEST_MESSAGE, response.jsonPath().get("message"));
     }
 
     @Test
-    @DisplayName("Отказ при попытке оплатить картой тур в кредит с CVV карты в один символ")
-    void testCardTourPurchaseErrorForOneCharacterCardCode() {
+    @DisplayName("Оплата тура в Кредит картой с полем именем владельца из специального символа - Не выполняется")
+    void testBuyingTourByCardWithSpecialSymbolsInNameOwner() {
         Response response = RestRequestHelper.sendRequest(
-                DataHelper.oneCharacterCardCodeFormData(), creditOperationPath, Constants.INTERNAL_ERROR);
+                DataHelper.formDataOfCardOwnerContainSpecialSymbol(), creditOperationPath, Constants.INTERNAL_ERROR);
 
         assertEquals(Constants.BAD_REQUEST_MESSAGE, response.jsonPath().get("message"));
     }
 
     @Test
-    @DisplayName("Отказ при попытке тур в кредит картой с пустым номером карты")
-    void testCardTourPurchaseErrorForEmptyCardNumber() {
+    @DisplayName("Оплата тура в Кредит картой с полем СVV в олин символ - Не выполняется")
+    void testBuyingTourByCardWithCVVOnlyOneSymbol() {
         Response response = RestRequestHelper.sendRequest(
-                DataHelper.emptyCardNumberFormData(), creditOperationPath, Constants.INTERNAL_ERROR);
+                DataHelper.formDataOfCardCodeIsOnlyOneSymbol(), creditOperationPath, Constants.INTERNAL_ERROR);
 
         assertEquals(Constants.BAD_REQUEST_MESSAGE, response.jsonPath().get("message"));
     }
 
     @Test
-    @DisplayName("Отказ при попытке оплатить тур в кредит случайной картой с пустым полем 'месяц'")
-    void testCardTourPurchaseErrorForEmptyCardMonth() {
+    @DisplayName("Оплата тура в Кредит картой без номера карты (без цифр) - Не выполняется")
+    void testBuyingTourByCardWithoutNumberOfCard() {
         Response response = RestRequestHelper.sendRequest(
-                DataHelper.emptyUnknownCardMonthFormData(), creditOperationPath, Constants.INTERNAL_ERROR);
+                DataHelper.formDataOfCardNumberIsVoid(), creditOperationPath, Constants.INTERNAL_ERROR);
 
         assertEquals(Constants.BAD_REQUEST_MESSAGE, response.jsonPath().get("message"));
     }
 
     @Test
-    @DisplayName("Отказ при попытке оплатить тур в кредит случайной картой с пустым полем 'год'")
-    void testCardTourPurchaseErrorForEmptyCardYear() {
+    @DisplayName("Оплата тура в Кредит картой с пустым полем месяц - Не выполняется")
+    void testBuyingTourByCardWithoutMonthForm() {
         Response response = RestRequestHelper.sendRequest(
-                DataHelper.emptyUnknownCardYearFormData(), creditOperationPath, Constants.INTERNAL_ERROR);
+                DataHelper.formDataOfCardMonthIsVoid(), creditOperationPath, Constants.INTERNAL_ERROR);
 
         assertEquals(Constants.BAD_REQUEST_MESSAGE, response.jsonPath().get("message"));
     }
 
     @Test
-    @DisplayName("Отказ при попытке оплатить тур в кредит случайной картой с пустым полем 'владелец'")
-    void testCardTourPurchaseErrorForEmptyCardHolder() {
+    @DisplayName("Оплата тура в Кредит картой с пустым полем год - Не выполняется")
+    void testBuyingTourByCardWithoutYearForm() {
         Response response = RestRequestHelper.sendRequest(
-                DataHelper.emptyCardHolderFormData(), creditOperationPath, Constants.INTERNAL_ERROR);
+                DataHelper.formDataOfCardYearIsVoid(), creditOperationPath, Constants.INTERNAL_ERROR);
 
         assertEquals(Constants.BAD_REQUEST_MESSAGE, response.jsonPath().get("message"));
     }
 
     @Test
-    @DisplayName("Отказ при попытке оплатить тур в кредит случайной картой с пустым полем 'CVV'")
-    void testCardTourPurchaseErrorForEmptyCardCode() {
+    @DisplayName("Оплата тура в Кредит картой с пустым полем владельца - Не выполняется")
+    void testBuyingTourByCardWithoutOwnerForm() {
         Response response = RestRequestHelper.sendRequest(
-                DataHelper.emptyCardCodeFormData(), creditOperationPath, Constants.INTERNAL_ERROR);
+                DataHelper.formDataOfCardOwnerIsVoid(), creditOperationPath, Constants.INTERNAL_ERROR);
 
         assertEquals(Constants.BAD_REQUEST_MESSAGE, response.jsonPath().get("message"));
     }
 
     @Test
-    @DisplayName("Отказ при попытке оплатить тур в кредит случайной картой c 00 в поле 'месяц'")
-    void testCardTourPurchaseErrorForDoubleZeroMonth() {
+    @DisplayName("Оплата тура в Кредит картой с пустым полем СVV - Не выполняется")
+    void testBuyingTourByCardWithoutCVVForm() {
         Response response = RestRequestHelper.sendRequest(
-                DataHelper.doubleZeroMonthFormData(), creditOperationPath, Constants.INTERNAL_ERROR);
+                DataHelper.formDataOfCardCodeIsVoid(), creditOperationPath, Constants.INTERNAL_ERROR);
 
         assertEquals(Constants.BAD_REQUEST_MESSAGE, response.jsonPath().get("message"));
     }
 
     @Test
-    @DisplayName("Отказ при попытке оплатить тур в кредит случайной картой c 00 в поле 'год'")
-    void testCardTourPurchaseErrorForDoubleZeroYear() {
+    @DisplayName("Оплата тура в Кредит картой с полем месяц из двух нулей - Не выполняется")
+    void testBuyingTourByCardWithZeroZeroInMonth() {
         Response response = RestRequestHelper.sendRequest(
-                DataHelper.doubleZeroYearFormData(), creditOperationPath, Constants.INTERNAL_ERROR);
+                DataHelper.formDataOfCardMonthISZeroZero(), creditOperationPath, Constants.INTERNAL_ERROR);
+
+        assertEquals(Constants.BAD_REQUEST_MESSAGE, response.jsonPath().get("message"));
+    }
+
+    @Test
+    @DisplayName("Оплата тура в Кредит картой с полем год из двух нулей - Не выполняется")
+    void testBuyingTourByCardWithZeroZeroInYear() {
+        Response response = RestRequestHelper.sendRequest(
+                DataHelper.formDataOfCardYearISZeroZero(), creditOperationPath, Constants.INTERNAL_ERROR);
 
         assertEquals(Constants.BAD_REQUEST_MESSAGE, response.jsonPath().get("message"));
     }

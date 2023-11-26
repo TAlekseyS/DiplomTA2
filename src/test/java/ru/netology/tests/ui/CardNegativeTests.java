@@ -15,145 +15,134 @@ public class CardNegativeTests extends BaseUITest {
     private final String subMessageExpiredDate = "Истёк срок действия карты";
 
     @Test
-    @DisplayName("Отправка формы покупки тура с пустым полем номера карты и валидными данными")
-    void testFailedCardPurchaseTourEmptyCardNumber() {
+    @DisplayName("Отправление формы покупки тура с валидными данными, но без номера карты")
+    void testFailedBuyingTourByCardWithoutNumberOfCard() {
         MainPage mainPage = new MainPage();
-        CardCheckoutPage cardCheckoutPage = mainPage.buyTourViaCard();
-        cardCheckoutPage.buyThroughCard(DataHelper.emptyCardNumberFormData());
-        cardCheckoutPage.cardNumberFieldSubMessage(subMessageWrongDataFormat);
+        CardCheckoutPage cardCheckoutPage = mainPage.buyTourOnDebetCard();
+        cardCheckoutPage.buyOnCredit(DataHelper.formDataOfCardNumberIsVoid());
+        cardCheckoutPage.cardNumberFieldMessageIsSubMessage(subMessageWrongDataFormat);
     }
 
     @Test
-    @DisplayName("Отправка формы покупки тура с принимаемой картой и пустым полем “месяц” " +
-            " и оставшимися валидными данными для полей")
-    void testFailedValidCardPurchaseTourValidCardEmptyMonth() {
+    @DisplayName("Отправление формы покупки тура с рабочей картой и валидными полями, но пустым полем 'месяц'")
+    void testFailedBuyingTourByCardWithoutFormMonth() {
         MainPage mainPage = new MainPage();
-        CardCheckoutPage cardCheckoutPage = mainPage.buyTourViaCard();
-        cardCheckoutPage.buyThroughCard(DataHelper.emptyCardMonthFormData());
-        cardCheckoutPage.cardMonthFieldSubMessage(subMessageWrongDataFormat);
+        CardCheckoutPage cardCheckoutPage = mainPage.buyTourOnDebetCard();
+        cardCheckoutPage.buyOnCredit(DataHelper.formDataOfCardMonthIsValidVoid());
+        cardCheckoutPage.cardMonthFieldMessageIsSubMessage(subMessageWrongDataFormat);
     }
 
     @Test
-    @DisplayName("Отправка формы покупки тура с принимаемой картой и пустым полем “год”" +
-            " и оставшимися валидными данными для полей")
-    void testFailedValidCardPurchaseTourValidCardEmptyYear() {
+    @DisplayName("Отправление формы покупки тура с рабочей картой и валидными полями, но пустым полем 'год'")
+    void testFailedBuyingTourByCardWithoutFormYear() {
         MainPage mainPage = new MainPage();
-        CardCheckoutPage cardCheckoutPage = mainPage.buyTourViaCard();
-        cardCheckoutPage.buyThroughCard(DataHelper.emptyCardYearFormData());
-        cardCheckoutPage.cardYearFieldSubMessage(subMessageWrongDataFormat);
+        CardCheckoutPage cardCheckoutPage = mainPage.buyTourOnDebetCard();
+        cardCheckoutPage.buyOnCredit(DataHelper.formDataOfCardYearIsValidVoid());
+        cardCheckoutPage.cardYearFieldMessageIsSubMessage(subMessageWrongDataFormat);
     }
 
     @Test
-    @DisplayName("Отправка формы покупки тура с принимаемой картой и пустым полем “Владелец”" +
-            " и оставшимися валидными данными для полей")
-    void testFailedValidCardPurchaseTourValidCardEmptyHolder() {
+    @DisplayName("Отправление формы покупки тура с рабочей картой и валидными полями, но пустым полем 'Владелец'")
+    void testFailedBuyingTourByCardWithoutFormOwner() {
         MainPage mainPage = new MainPage();
-        CardCheckoutPage cardCheckoutPage = mainPage.buyTourViaCard();
-        cardCheckoutPage.buyThroughCard(DataHelper.emptyCardHolderFormData());
-        cardCheckoutPage.cardHolderFieldSubMessage(subMessageEmptyData);
+        CardCheckoutPage cardCheckoutPage = mainPage.buyTourOnDebetCard();
+        cardCheckoutPage.buyOnCredit(DataHelper.formDataOfCardOwnerIsVoid());
+        cardCheckoutPage.cardOwnerFieldMessageIsSubMessage(subMessageEmptyData);
     }
 
     @Test
-    @DisplayName("Отправка формы покупки тура с принимаемой картой и пустым полем “CVV/CVS”" +
-            " и оставшимися валидными данными для полей")
-    void testFailedValidCardPurchaseTourValidCardEmptyCVV() {
+    @DisplayName("Отправление формы покупки тура с рабочей картой и валидными полями, но пустым полем 'CVV/CVS'")
+    void testFailedBuyingTourByCardWithoutFormCVV() {
         MainPage mainPage = new MainPage();
-        CardCheckoutPage cardCheckoutPage = mainPage.buyTourViaCard();
-        cardCheckoutPage.buyThroughCard(DataHelper.emptyCardCodeFormData());
-        cardCheckoutPage.cardCodeFieldSubMessage(subMessageWrongDataFormat); //todo: тут баг, подсвечивается поле с кардхолдером, как пустое
+        CardCheckoutPage cardCheckoutPage = mainPage.buyTourOnDebetCard();
+        cardCheckoutPage.buyOnCredit(DataHelper.formDataOfCardCodeIsVoid());
+        cardCheckoutPage.cardCodeFieldMessageIsSubMessage(subMessageWrongDataFormat); //todo: баг. Поле кардхолдера отображается, как пустое
     }
 
     @Test
-    @DisplayName("Отправка пустой формы покупки тура с принимаемой картой")
-    void testFailedSendEmptyCardDataFields() {
+    @DisplayName("Отправление незаполненной формы покупки тура с рабочей карты")
+    void testFailedBuyingTourByCardWithUnfilledForm() {
         MainPage mainPage = new MainPage();
-        CardCheckoutPage cardCheckoutPage = mainPage.buyTourViaCard();
-        cardCheckoutPage.sendEmptyCardForm();
-        cardCheckoutPage.cardNumberFieldSubMessage(subMessageWrongDataFormat);
-        cardCheckoutPage.cardMonthFieldSubMessage(subMessageWrongDataFormat);
-        cardCheckoutPage.cardYearFieldSubMessage(subMessageWrongDataFormat);
-        cardCheckoutPage.cardHolderFieldSubMessage(subMessageEmptyData);
-        cardCheckoutPage.cardCodeFieldSubMessage(subMessageWrongDataFormat);
+        CardCheckoutPage cardCheckoutPage = mainPage.buyTourOnDebetCard();
+        cardCheckoutPage.sendVoidDebetForm();
+        cardCheckoutPage.cardNumberFieldMessageIsSubMessage(subMessageWrongDataFormat);
+        cardCheckoutPage.cardMonthFieldMessageIsSubMessage(subMessageWrongDataFormat);
+        cardCheckoutPage.cardYearFieldMessageIsSubMessage(subMessageWrongDataFormat);
+        cardCheckoutPage.cardOwnerFieldMessageIsSubMessage(subMessageEmptyData);
+        cardCheckoutPage.cardCodeFieldMessageIsSubMessage(subMessageWrongDataFormat);
     }
 
     @Test
-    @DisplayName("Отправка формы покупки тура со случайными числами в поле “номер карты”" +
-            " и оставшимися валидными данными для полей")
-    void testFailedCardPurchaseViaUnknownCard() {
+    @DisplayName("Отправление формы покупки тура с рабочей картой и валидными полями, но пустым полем 'Номер карты'")
+    void testFailedBuyingTourByCardWithoutFormNumberOfCard() {
         MainPage mainPage = new MainPage();
-        CardCheckoutPage cardCheckoutPage = mainPage.buyTourViaCard();
-        cardCheckoutPage.buyThroughCard(DataHelper.wrongCardHolderFormData());
-        cardCheckoutPage.cardHolderFieldSubMessage(subMessageWrongDataFormat);
+        CardCheckoutPage cardCheckoutPage = mainPage.buyTourOnDebetCard();
+        cardCheckoutPage.buyOnCredit(DataHelper.formDataOfCardOwnerIsFalse());
+        cardCheckoutPage.cardOwnerFieldMessageIsSubMessage(subMessageWrongDataFormat);
     }
 
     @Test
-    @DisplayName("Отправка формы покупки тура с вводом в поле “год” невалидного значения " +
-            "равного предшествующему году от текущего года и оставшимися валидными данными для полей")
-    void testFailedCardPurchaseInvalidExpireDate() {
+    @DisplayName("Отправление формы покупки тура с рабочей картой, где поле 'год' невалидное, а остальные - валидные")
+    void testFailedBuyingTourByCardWithInvalidFormYear() {
         MainPage mainPage = new MainPage();
-        CardCheckoutPage cardCheckoutPage = mainPage.buyTourViaCard();
-        cardCheckoutPage.buyThroughCard(DataHelper.expiredCardYearFormData());
-        cardCheckoutPage.cardYearFieldSubMessage(subMessageExpiredDate);
+        CardCheckoutPage cardCheckoutPage = mainPage.buyTourOnDebetCard();
+        cardCheckoutPage.buyOnCredit(DataHelper.formDataOfCardYearsIsOverdue());
+        cardCheckoutPage.cardYearFieldMessageIsSubMessage(subMessageExpiredDate);
     }
 
     @Test
-    @DisplayName("Отправка формы покупки тура с вводом в поле “месяц”" +
-            " невалидных значений месяцев в один символ и оставшимися валидными данными для полей")
-    void testFailedCardPurchaseOneCharMonthDataFormat() {
+    @DisplayName("Отправление формы покупки тура с рабочей картой, где поле 'месяц' невалидное (из одной цифры), а остальные поля - валидные")
+    void testFailedBuyingTourByCardWithInvalidFormMonthOneFigure() {
         MainPage mainPage = new MainPage();
-        CardCheckoutPage cardCheckoutPage = mainPage.buyTourViaCard();
-        cardCheckoutPage.buyThroughCard(DataHelper.oneCharacterMonthNumberFormData());
-        cardCheckoutPage.cardMonthFieldSubMessage(subMessageWrongDataFormat);
+        CardCheckoutPage cardCheckoutPage = mainPage.buyTourOnDebetCard();
+        cardCheckoutPage.buyOnCredit(DataHelper.oneSymbolFormDataNumberOfMonth());
+        cardCheckoutPage.cardMonthFieldMessageIsSubMessage(subMessageWrongDataFormat);
     }
 
     @Test
-    @DisplayName("Отправка формы покупки тура с вводом в поле “месяц” невалидного" +
-            "значения из двух нулей и оставшимися валидными данными для полей")
-    void testFailedCardPurchaseInvalidMonthDoubleZeroDataFormat() {
+    @DisplayName("Отправление формы покупки тура с рабочей картой, где поле 'месяц' невалидное (из двух нулей), а остальные поля - валидные")
+    void testFailedBuyingTourByCardWithInvalidFormMonthZeroZero() {
         MainPage mainPage = new MainPage();
-        CardCheckoutPage cardCheckoutPage = mainPage.buyTourViaCard();
-        cardCheckoutPage.buyThroughCard(DataHelper.approvedCardFormDataWithDoubleZeroMonth());
-        cardCheckoutPage.cardMonthFieldSubMessage(subMessageWrongDataFormat); //todo: тут баг, с двумя 00 удается купить
+        CardCheckoutPage cardCheckoutPage = mainPage.buyTourOnDebetCard();
+        cardCheckoutPage.buyOnCredit(DataHelper.approvedFormOfCardDataAndZeroZeroMonth ());
+        cardCheckoutPage.cardMonthFieldMessageIsSubMessage(subMessageWrongDataFormat); //todo: баг с двумя нулями. Можно купить
     }
 
     @Test
-    @DisplayName("Отправка формы покупки тура с вводом в поле “месяц”" +
-            "несуществующего значения месяца и оставшимися валидными данными для полей")
-    void testFailedCardPurchaseMonthDataFormat() {
+    @DisplayName("Отправление формы покупки тура с рабочей картой, где поле 'месяц' невалидное (больше 12), а остальные поля - валидные")
+    void testFailedBuyingTourByCardWithInvalidFormMonthThirteen() {
         MainPage mainPage = new MainPage();
-        CardCheckoutPage cardCheckoutPage = mainPage.buyTourViaCard();
-        cardCheckoutPage.buyThroughCard(DataHelper.wrongCardMonthFormData());
-        cardCheckoutPage.cardMonthFieldSubMessage(subMessageWrongDate);
+        CardCheckoutPage cardCheckoutPage = mainPage.buyTourOnDebetCard();
+        cardCheckoutPage.buyOnCredit(DataHelper.formDataOfCardMonthIsWrong ());
+        cardCheckoutPage.cardMonthFieldMessageIsSubMessage(subMessageWrongDate);
     }
 
     @Test
-    @DisplayName("Отправка формы покупки тура с принимаемой картой" +
-            "на текущий месяц (currentMonth - 1) и текущий год (currentYear) и валидными данными для оставшихся полей")
-    void testSuccessfulCardPurchaseTourPreviousMonthCurrentYear() {
+    @DisplayName("Отправление формы покупки тура с рабочей картой, где поле 'месяц' невалидное (прошедший  месяц), а остальные поля - валидные")
+    void testFailedBuyingTourByCardWithInvalidFormMonthPrevious() {
         MainPage mainPage = new MainPage();
-        CardCheckoutPage cardCheckoutPage = mainPage.buyTourViaCard();
-        cardCheckoutPage.buyThroughCard(DataHelper.approvedCardFormDataWithPreviousMonth());
-        cardCheckoutPage.successNotification();
-        assertEquals("APPROVED", DataHelper.getBuyingOperationStatus());
+        CardCheckoutPage cardCheckoutPage = mainPage.buyTourOnDebetCard();
+        cardCheckoutPage.buyOnCredit(DataHelper.approvedFormOfCardDataAndEarlyMonth());
+        cardCheckoutPage.completeNotice();
+        assertEquals("APPROVED", DataHelper.getStatusOfBuingTransaction());
     }
 
     @Test
-    @DisplayName("Отправка формы покупки тура с принимаемой картой" +
-            "на текущий месяц (currentMonth) и текущий год (currentYear - 1) и валидными данными для оставшихся полей")
-    void testFailedCardPurchaseTourCurrentMonthPreviousYear() {
+    @DisplayName("Отправление формы покупки тура с рабочей картой, где поле 'год' невалидное (прошедший год), а остальные поля - валидные")
+    void testFailedBuyingTourByCardWithInvalidFormYearPrevious() {
         MainPage mainPage = new MainPage();
-        CardCheckoutPage cardCheckoutPage = mainPage.buyTourViaCard();
-        cardCheckoutPage.buyThroughCard(DataHelper.approvedCardFormDataWithApprovedPreviousYear());
-        cardCheckoutPage.cardYearFieldSubMessage(subMessageExpiredDate);
+        CardCheckoutPage cardCheckoutPage = mainPage.buyTourOnDebetCard();
+        cardCheckoutPage.buyOnCredit(DataHelper.approvedFormOfCardDataAndEarlyYear());
+        cardCheckoutPage.cardYearFieldMessageIsSubMessage(subMessageExpiredDate);
     }
 
     @Test
-    @DisplayName("Отправка формы покупки тура с отклоненным номером карты и валидными данными формы")
-    void testFailedCardPurchaseTourDeclinedCardValidFormData() {
+    @DisplayName("Отправление формы покупки тура с невалидным полем номера карты, но остальные поля - валидные")
+    void testFailedBuyingTourByCardWithInvalidFormNumberOfCard() {
         MainPage mainPage = new MainPage();
-        CardCheckoutPage cardCheckoutPage = mainPage.buyTourViaCard();
-        cardCheckoutPage.buyThroughCard(DataHelper.declinedCardFormData());
-        cardCheckoutPage.errorNotification(); //todo: тест логически правильный, тут баг
-        assertEquals("DECLINED", DataHelper.getBuyingOperationStatus());
+        CardCheckoutPage cardCheckoutPage = mainPage.buyTourOnDebetCard();
+        cardCheckoutPage.buyOnCredit(DataHelper.declinedCardFormData());
+        cardCheckoutPage.failedNotice(); //todo: тест верный. Это баг
+        assertEquals("DECLINED", DataHelper.getStatusOfBuingTransaction());
     }
 }

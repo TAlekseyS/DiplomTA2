@@ -42,7 +42,7 @@ public class CardCheckoutPage {
         heading.shouldBe(visible);
     }
 
-    public void buyThroughCard(DataHelper.FormData formData) {
+    public void buyOnCredit(DataHelper.FormData formData) {
         cardNumberField.setValue(formData.getNumber());
         cardMonthField.setValue(formData.getMonth());
         cardYearField.setValue(formData.getYear());
@@ -51,37 +51,37 @@ public class CardCheckoutPage {
         continueButton.click();
     }
 
-    public void sendEmptyCardForm() {
+    public void sendVoidDebetForm() {
         continueButton.click();
     }
 
-    public void successNotification() {
+    public void completeNotice() {
         successNotification.shouldHave(Condition.text("Операция одобрена банком"),
                 Duration.ofSeconds(15)).shouldBe(visible);
     }
 
-    public void errorNotification() {
+    public void failedNotice() {
         errorNotification.shouldHave(Condition.text("Банк отказал в проведении операции."),
                 Duration.ofSeconds(15)).shouldBe(visible);
     }
 
-    public void cardNumberFieldSubMessage(String subMessage) {
+    public void cardNumberFieldMessageIsSubMessage(String subMessage) {
         cardNumberFieldSubMessage.shouldHave(visible, exactText(subMessage));
     }
 
-    public void cardMonthFieldSubMessage(String subMessage) {
+    public void cardMonthFieldMessageIsSubMessage(String subMessage) {
         cardMonthFieldSubMessage.shouldHave(visible, exactText(subMessage));
     }
 
-    public void cardYearFieldSubMessage(String subMessage) {
+    public void cardYearFieldMessageIsSubMessage(String subMessage) {
         cardYearFieldSubMessage.shouldHave(visible, exactText(subMessage));
     }
 
-    public void cardHolderFieldSubMessage(String subMessage) {
+    public void cardOwnerFieldMessageIsSubMessage(String subMessage) {
         cardHolderFieldSubMessage.shouldHave(visible, exactText(subMessage));
     }
 
-    public void cardCodeFieldSubMessage(String subMessage) {
+    public void cardCodeFieldMessageIsSubMessage(String subMessage) {
         cardCodeFieldSubMessage.shouldHave(visible, exactText(subMessage));
     }
 }

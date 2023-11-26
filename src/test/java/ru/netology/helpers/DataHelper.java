@@ -24,15 +24,15 @@ public class DataHelper {
         String cvc;
     }
 
-    public static String getApprovedCardNumber() {
+    public static String getValidNumberOfCard() {
         return "4444 4444 4444 4441";
     }
 
-    public static String getDeclinedCardNumber() {
+    public static String getAntiValidNumberOfCard() {
         return "4444 4444 4444 4442";
     }
 
-    public static String getUnknownCardNumber() {
+    public static String getUnknownNumberOfCard() {
         return faker.number().digits(16);
     }
 
@@ -40,11 +40,11 @@ public class DataHelper {
         return LocalDate.now().format(DateTimeFormatter.ofPattern("MM"));
     }
 
-    public static String getCustomAddedChangedCardMonth(int amountOfMonthsAdded) {
+    public static String getPickCardMonth(int amountOfMonthsAdded) {
         return LocalDate.now().plusMonths(amountOfMonthsAdded).format(DateTimeFormatter.ofPattern("MM"));
     }
 
-    public static String getCustomAddedCardYear(int amountOfYearsAdded) {
+    public static String getPickCardYear(int amountOfYearsAdded) {
         return LocalDate.now().plusYears(amountOfYearsAdded).format(DateTimeFormatter.ofPattern("yy"));
     }
 
@@ -56,180 +56,180 @@ public class DataHelper {
         return faker.number().digits(3);
     }
 
-    public static String getOneNumber(){
+    public static String getOnlyOneNumber(){
         return faker.number().digits(1);
     }
 
-    public static String getWrongTwoDigitCardMonth() {
+    public static String getFalseMonthOfCard() {
         return String.valueOf(faker.number().numberBetween(13,99));
     }
 
-    public static String getDoubleZeroData() {
+    public static String getZeroZeroData() {
         return "00";
     }
 
-    public static String getWrongCardYear() {
+    public static String getFalseYearsOfCard() {
         return String.valueOf(faker.number().numberBetween(0,999));
     }
 
-    public static String getCardYearExpired() {
+    public static String getOverdueYearsOfCard() {
         return LocalDate.now().minusYears(1).format(DateTimeFormatter.ofPattern("yy"));
     }
 
-    public static String getWrongCardHolder() {
+    public static String getFalseOwnerOfCard() {
         return faker.name().firstName().toUpperCase();
     }
 
-    public static String getCyrillicCardHolder() {
+    public static String getRusLanguageOwnerOfCard() {
         final Faker faker = new Faker(new Locale("ru"));
         return faker.name().firstName().toUpperCase() + ' ' + faker.name().lastName().toUpperCase() ;
     }
 
-    public static String getNumbersCardHolder() {
+    public static String getNumbersCardsOfOwner() {
         return String.valueOf(faker.number().numberBetween(100,99999));
     }
 
-    public static String getOneCharacter() {
+    public static String getOneSymbol() {
         return faker.letterify("?").toUpperCase();
     }
 
-    public static FormData approvedCardFormData() {
-        return new FormData(getApprovedCardNumber(), getCardMonth(),
-                getCustomAddedCardYear(1), getCardHolder(), getCardCode());
+    public static FormData approvedFormOfCardData() {
+        return new FormData(getValidNumberOfCard(), getCardMonth(),
+                getPickCardYear(1), getCardHolder(), getCardCode());
     }
 
-    public static FormData approvedCardFormDataWithApprovedNextMonth() {
-        return new FormData(getApprovedCardNumber(), getCustomAddedChangedCardMonth(1),
-                getCustomAddedCardYear(1), getCardHolder(), getCardCode());
+    public static FormData approvedFarmOfCardDataAndNextMonth() {
+        return new FormData(getValidNumberOfCard(), getPickCardMonth(1),
+                getPickCardYear(1), getCardHolder(), getCardCode());
     }
 
-    public static FormData approvedCardFormDataWithApprovedNextYear() {
-        return new FormData(getApprovedCardNumber(), getCardMonth(),
-                getCustomAddedCardYear(1), getCardHolder(), getCardCode());
+    public static FormData approvedFarmOfCardDataAndNextYear() {
+        return new FormData(getValidNumberOfCard(), getCardMonth(),
+                getPickCardYear(1), getCardHolder(), getCardCode());
     }
 
-    public static FormData approvedCardFormDataWithApprovedPreviousYear() {
-        return new FormData(getApprovedCardNumber(), getCardMonth(),
-                getCustomAddedCardYear(-1), getCardHolder(), getCardCode());
+    public static FormData approvedFormOfCardDataAndEarlyYear() {
+        return new FormData(getValidNumberOfCard(), getCardMonth(),
+                getPickCardYear(-1), getCardHolder(), getCardCode());
     }
 
-    public static FormData approvedCardFormDataWithDoubleZeroMonth() {
-        return new FormData(getApprovedCardNumber(), getDoubleZeroData(),
-                getCustomAddedCardYear(1), getCardHolder(), getCardCode());
+    public static FormData approvedFormOfCardDataAndZeroZeroMonth() {
+        return new FormData(getValidNumberOfCard(), getZeroZeroData(),
+                getPickCardYear(1), getCardHolder(), getCardCode());
     }
 
 
-    public static FormData approvedCardFormDataWithPreviousMonth() {
-        return new FormData(getApprovedCardNumber(), getCustomAddedChangedCardMonth(-1),
-                getCustomAddedCardYear(1), getCardHolder(), getCardCode());
+    public static FormData approvedFormOfCardDataAndEarlyMonth() {
+        return new FormData(getValidNumberOfCard(), getPickCardMonth(-1),
+                getPickCardYear(1), getCardHolder(), getCardCode());
     }
 
     public static FormData declinedCardFormData() {
-        return new FormData(getDeclinedCardNumber(), getCardMonth(),
-                getCustomAddedCardYear(1), getCardHolder(), getCardCode());
+        return new FormData(getAntiValidNumberOfCard(), getCardMonth(),
+                getPickCardYear(1), getCardHolder(), getCardCode());
     }
 
-    public static FormData oneCharacterCardNumberFormData() {
-        return new FormData(getOneNumber(), getCardMonth(),
-                getCustomAddedCardYear(1), getCardHolder(), getCardCode());
+    public static FormData oneSymbolFormDataNumberOfCard() {
+        return new FormData(getOnlyOneNumber(), getCardMonth(),
+                getPickCardYear(1), getCardHolder(), getCardCode());
     }
 
-    public static FormData oneCharacterMonthNumberFormData() {
-        return new FormData(getApprovedCardNumber(), getOneNumber(),
-                getCustomAddedCardYear(1), getCardHolder(), getCardCode());
+    public static FormData oneSymbolFormDataNumberOfMonth() {
+        return new FormData(getValidNumberOfCard(), getOnlyOneNumber(),
+                getPickCardYear(1), getCardHolder(), getCardCode());
     }
 
-    public static FormData wrongCardMonthFormData() {
-        return new FormData(getUnknownCardNumber(), getWrongTwoDigitCardMonth(),
-                getCustomAddedCardYear(1), getCardHolder(), getCardCode());
+    public static FormData formDataOfCardMonthIsWrong() {
+        return new FormData(getUnknownNumberOfCard(), getFalseMonthOfCard(),
+                getPickCardYear(1), getCardHolder(), getCardCode());
     }
 
-    public static FormData wrongCardYearFormData() {
-        return new FormData(getUnknownCardNumber(), getCardMonth(),
-                getWrongCardYear(), getCardHolder(), getCardCode());
+    public static FormData formDataOfCardYearsIsWrong() {
+        return new FormData(getUnknownNumberOfCard(), getCardMonth(),
+                getFalseYearsOfCard(), getCardHolder(), getCardCode());
     }
 
-    public static FormData expiredCardYearFormData() {
-        return new FormData(getUnknownCardNumber(), getCardMonth(),
-                getCardYearExpired(), getCardHolder(), getCardCode());
+    public static FormData formDataOfCardYearsIsOverdue() {
+        return new FormData(getUnknownNumberOfCard(), getCardMonth(),
+                getOverdueYearsOfCard(), getCardHolder(), getCardCode());
     }
 
-    public static FormData wrongCardHolderFormData() {
-        return new FormData(getUnknownCardNumber(), getCardMonth(),
-                getCustomAddedCardYear(1), getWrongCardHolder(), getCardCode());
+    public static FormData formDataOfCardOwnerIsFalse() {
+        return new FormData(getUnknownNumberOfCard(), getCardMonth(),
+                getPickCardYear(1), getFalseOwnerOfCard(), getCardCode());
     }
 
-    public static FormData cyrillicCardHolderFormData() {
-        return new FormData(getUnknownCardNumber(), getCardMonth(),
-                getCustomAddedCardYear(1), getCyrillicCardHolder(), getCardCode());
+    public static FormData formDataOfCardOwnerIsRusLanguage() {
+        return new FormData(getUnknownNumberOfCard(), getCardMonth(),
+                getPickCardYear(1), getRusLanguageOwnerOfCard(), getCardCode());
     }
-    public static FormData numbersCardHolderFormData() {
-        return new FormData(getUnknownCardNumber(), getCardMonth(),
-                getCustomAddedCardYear(1), getNumbersCardHolder(), getCardCode());
-    }
-
-    public static FormData oneCharacterCardHolderFormData() {
-        return new FormData(getUnknownCardNumber(), getCardMonth(),
-                getCustomAddedCardYear(1),getOneCharacter(), getCardCode());
+    public static FormData formDataOfCardOwnerIsNumbers() {
+        return new FormData(getUnknownNumberOfCard(), getCardMonth(),
+                getPickCardYear(1), getNumbersCardsOfOwner(), getCardCode());
     }
 
-    public static FormData specSymbolsCardHolderFormData() {
-        return new FormData(getUnknownCardNumber(), getCardMonth(),
-                getCustomAddedCardYear(1),getCardHolder() + "!@#$%^&*№;%:?", getCardCode());
+    public static FormData formDataOfCardOwnerIsOnlyOneSymbol() {
+        return new FormData(getUnknownNumberOfCard(), getCardMonth(),
+                getPickCardYear(1),getOneSymbol(), getCardCode());
     }
 
-    public static FormData oneCharacterCardCodeFormData() {
-        return new FormData(getUnknownCardNumber(), getCardMonth(),
-                getCustomAddedCardYear(1),getCardHolder(), getOneNumber());
+    public static FormData formDataOfCardOwnerContainSpecialSymbol() {
+        return new FormData(getUnknownNumberOfCard(), getCardMonth(),
+                getPickCardYear(1),getCardHolder() + "!@#$%^&*№;%:?", getCardCode());
     }
 
-    public static FormData emptyCardNumberFormData() {
+    public static FormData formDataOfCardCodeIsOnlyOneSymbol() {
+        return new FormData(getUnknownNumberOfCard(), getCardMonth(),
+                getPickCardYear(1),getCardHolder(), getOnlyOneNumber());
+    }
+
+    public static FormData formDataOfCardNumberIsVoid() {
         return new FormData("", getCardMonth(),
-                getCustomAddedCardYear(1),getCardHolder(), getCardCode());
+                getPickCardYear(1),getCardHolder(), getCardCode());
     }
 
-    public static FormData emptyUnknownCardMonthFormData() {
-        return new FormData(getUnknownCardNumber(), "",
-                getCustomAddedCardYear(1),getCardHolder(), getCardCode());
+    public static FormData formDataOfCardMonthIsVoid() {
+        return new FormData(getUnknownNumberOfCard(), "",
+                getPickCardYear(1),getCardHolder(), getCardCode());
     }
 
-    public static FormData emptyCardMonthFormData() {
-        return new FormData(getApprovedCardNumber(), "",
-                getCustomAddedCardYear(1),getCardHolder(), getCardCode());
+    public static FormData formDataOfCardMonthIsValidVoid() {
+        return new FormData(getValidNumberOfCard(), "",
+                getPickCardYear(1),getCardHolder(), getCardCode());
     }
 
-    public static FormData emptyUnknownCardYearFormData() {
-        return new FormData(getUnknownCardNumber(), getCardMonth(),
+    public static FormData formDataOfCardYearIsVoid() {
+        return new FormData(getUnknownNumberOfCard(), getCardMonth(),
                 "",getCardHolder(), getCardCode());
     }
 
-    public static FormData emptyCardYearFormData() {
-        return new FormData(getApprovedCardNumber(), getCardMonth(),
+    public static FormData formDataOfCardYearIsValidVoid() {
+        return new FormData(getValidNumberOfCard(), getCardMonth(),
                 "",getCardHolder(), getCardCode());
     }
 
-    public static FormData emptyCardHolderFormData() {
-        return new FormData(getApprovedCardNumber(), getCardMonth(),
-                getCustomAddedCardYear(1),"", getCardCode());
+    public static FormData formDataOfCardOwnerIsVoid() {
+        return new FormData(getValidNumberOfCard(), getCardMonth(),
+                getPickCardYear(1),"", getCardCode());
     }
 
-    public static FormData emptyCardCodeFormData() {
-        return new FormData(getApprovedCardNumber(), getCardMonth(),
-                getCustomAddedCardYear(1),getCardHolder(), "");
+    public static FormData formDataOfCardCodeIsVoid() {
+        return new FormData(getValidNumberOfCard(), getCardMonth(),
+                getPickCardYear(1),getCardHolder(), "");
     }
 
-    public static FormData doubleZeroMonthFormData() {
-        return new FormData(getUnknownCardNumber(), getDoubleZeroData(),
-                getCustomAddedCardYear(1),getCardHolder(), getCardCode());
+    public static FormData formDataOfCardMonthISZeroZero() {
+        return new FormData(getUnknownNumberOfCard(), getZeroZeroData(),
+                getPickCardYear(1),getCardHolder(), getCardCode());
     }
 
-    public static FormData doubleZeroYearFormData() {
-        return new FormData(getUnknownCardNumber(), getCardMonth(),
-                getDoubleZeroData(),getCardHolder(), getCardCode());
+    public static FormData formDataOfCardYearISZeroZero() {
+        return new FormData(getUnknownNumberOfCard(), getCardMonth(),
+                getZeroZeroData(),getCardHolder(), getCardCode());
     }
 
     @SneakyThrows
-    public static String getBuyingOperationStatus() {
+    public static String getStatusOfBuingTransaction() {
         var runner = new QueryRunner();
         var getStatus = "SELECT status FROM payment_entity ORDER BY created DESC LIMIT 1";
         var conn = DriverManager.getConnection(dbUrl, "app", "pass");
@@ -238,7 +238,7 @@ public class DataHelper {
     }
 
     @SneakyThrows
-    public static String getCreditOperationStatus() {
+    public static String getStatusOfBuingOnCreditTransaction() {
         var runner = new QueryRunner();
         var getStatus = "SELECT status FROM credit_request_entity ORDER BY created DESC LIMIT 1";
         var conn = DriverManager.getConnection(dbUrl, "app", "pass");

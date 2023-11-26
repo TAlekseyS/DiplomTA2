@@ -10,35 +10,32 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class CreditPositiveTests extends BaseUITest {
 
     @Test
-    @DisplayName("Отправка формы покупки тура в кредит с принимаемой картой на текущий месяц, " +
-            "текущий год и валидными данными для оставшихся полей")
-    void testSuccessfulCreditCardPurchaseTourValidExpireDate() {
+    @DisplayName("Отправление формы покупки тура в Кредит с рабочей карты, на текущий год и месяц и валидными данными")
+    void testSuccessfulBuyingTourOnCurrentMY() {
         MainPage mainPage = new MainPage();
-        CreditCheckoutPage creditCheckoutPage = mainPage.buyTourViaCreditCard();
-        creditCheckoutPage.buyThroughCredit(DataHelper.approvedCardFormData());
-        creditCheckoutPage.successNotification();
-        assertEquals("APPROVED", DataHelper.getCreditOperationStatus());
+        CreditCheckoutPage creditCheckoutPage = mainPage.buyTourOnCreditCard();
+        creditCheckoutPage.buyThroughCredit(DataHelper.approvedFormOfCardData());
+        creditCheckoutPage.completeNotice();
+        assertEquals("APPROVED", DataHelper.getStatusOfBuingOnCreditTransaction());
     }
 
     @Test
-    @DisplayName("Отправка формы покупки тура в кредит с принимаемой картой на текущий месяц плюс один месяц," +
-            " текущий год и валидными данными для оставшихся полей")
-    void testSuccessfulCreditCardPurchaseTourNextMonthCurrentYear() {
+    @DisplayName("Отправление формы покупки тура в Кредит с рабочей карты, на текущий год и следующий месяц и валидными данными")
+    void testSuccessfulBuyingTourOnCurrentYAndNextMont() {
         MainPage mainPage = new MainPage();
-        CreditCheckoutPage creditCheckoutPage = mainPage.buyTourViaCreditCard();
-        creditCheckoutPage.buyThroughCredit(DataHelper.approvedCardFormDataWithApprovedNextMonth());
-        creditCheckoutPage.successNotification();
-        assertEquals("APPROVED", DataHelper.getCreditOperationStatus());
+        CreditCheckoutPage creditCheckoutPage = mainPage.buyTourOnCreditCard();
+        creditCheckoutPage.buyThroughCredit(DataHelper.approvedFarmOfCardDataAndNextMonth());
+        creditCheckoutPage.completeNotice();
+        assertEquals("APPROVED", DataHelper.getStatusOfBuingOnCreditTransaction());
     }
 
     @Test
-    @DisplayName("Отправка формы покупки тура в кредит с принимаемой картой на текущий месяц," +
-            " текущий год плюс один год и валидными данными для оставшихся полей")
-    void testSuccessfulCreditCardPurchaseTourCurrentMonthNextYear() {
+    @DisplayName("Отправление формы покупки тура в Кредит с рабочей карты, на следующий год и следующий месяц и валидными данными")
+    void testSuccessfulBuyingTourOnNextMY() {
         MainPage mainPage = new MainPage();
-        CreditCheckoutPage creditCheckoutPage = mainPage.buyTourViaCreditCard();
-        creditCheckoutPage.buyThroughCredit(DataHelper.approvedCardFormDataWithApprovedNextYear());
-        creditCheckoutPage.successNotification();
-        assertEquals("APPROVED", DataHelper.getCreditOperationStatus());
+        CreditCheckoutPage creditCheckoutPage = mainPage.buyTourOnCreditCard();
+        creditCheckoutPage.buyThroughCredit(DataHelper.approvedFarmOfCardDataAndNextYear());
+        creditCheckoutPage.completeNotice();
+        assertEquals("APPROVED", DataHelper.getStatusOfBuingOnCreditTransaction());
     }
 }
