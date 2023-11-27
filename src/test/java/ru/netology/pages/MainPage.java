@@ -8,13 +8,13 @@ public class MainPage {
     private SelenideElement buyButton = $x("//*[contains(text(),'Купить')]");
     private SelenideElement creditButton = $x("//*[contains(text(),'Купить в кредит')]");
 
-    public CardCheckoutPage buyTourOnDebetCard() {
+    public CardDebetPaymentPage buyTourOnDebetCard() {
         buyButton.click();
-        return new CardCheckoutPage();
+        return new CardDebetPaymentPage();
     }
 
-    public CreditCheckoutPage buyTourOnCreditCard() {
+    public CardCreditPaymentPage buyTourOnCreditCard() {
         creditButton.click();
-        return new CreditCheckoutPage();
+        return new CardCreditPaymentPage();
     }
 }

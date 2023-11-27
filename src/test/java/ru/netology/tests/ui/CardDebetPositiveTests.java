@@ -6,15 +6,15 @@ import ru.netology.pages.*;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class CardPositiveTests extends BaseUITest {
+public class CardDebetPositiveTests extends BaseUITest {
 
     @Test
     @DisplayName("Отправление формы покупки тура с рабочей карты, на текущий год и месяц и валидными данными")
     void testSuccessfulBuyingTourOnCurrentMY() {
         MainPage mainPage = new MainPage();
-        CardCheckoutPage cardCheckoutPage = mainPage.buyTourOnDebetCard();
-        cardCheckoutPage.buyOnCredit(DataHelper.approvedFormOfCardData());
-        cardCheckoutPage.completeNotice();
+        CardDebetPaymentPage cardDebetPaymentPage = mainPage.buyTourOnDebetCard();
+        cardDebetPaymentPage.buyOnCredit(DataHelper.approvedFormOfCardData());
+        cardDebetPaymentPage.completeNotice();
         assertEquals("APPROVED", DataHelper.getStatusOfBuingTransaction());
     }
 
@@ -22,9 +22,9 @@ public class CardPositiveTests extends BaseUITest {
     @DisplayName("Отправление формы покупки тура с рабочей карты, на текущий год и следующий месяц и валидными данными")
     void testSuccessfulBuyingTourOnCurrentYAndNextMont() {
         MainPage mainPage = new MainPage();
-        CardCheckoutPage cardCheckoutPage = mainPage.buyTourOnDebetCard();
-        cardCheckoutPage.buyOnCredit(DataHelper.approvedFarmOfCardDataAndNextMonth());
-        cardCheckoutPage.completeNotice();
+        CardDebetPaymentPage cardDebetPaymentPage = mainPage.buyTourOnDebetCard();
+        cardDebetPaymentPage.buyOnCredit(DataHelper.approvedFarmOfCardDataAndNextMonth());
+        cardDebetPaymentPage.completeNotice();
         assertEquals("APPROVED", DataHelper.getStatusOfBuingTransaction());
     }
 
@@ -32,9 +32,9 @@ public class CardPositiveTests extends BaseUITest {
     @DisplayName("Отправление формы покупки тура с рабочей карты, на следующий год и следующий месяц и валидными данными")
     void testSuccessfulBuyingTourOnNextMY() {
         MainPage mainPage = new MainPage();
-        CardCheckoutPage cardCheckoutPage = mainPage.buyTourOnDebetCard();
-        cardCheckoutPage.buyOnCredit(DataHelper.approvedFarmOfCardDataAndNextYear());
-        cardCheckoutPage.completeNotice();
+        CardDebetPaymentPage cardDebetPaymentPage = mainPage.buyTourOnDebetCard();
+        cardDebetPaymentPage.buyOnCredit(DataHelper.approvedFarmOfCardDataAndNextYear());
+        cardDebetPaymentPage.completeNotice();
         assertEquals("APPROVED", DataHelper.getStatusOfBuingTransaction());
     }
 }

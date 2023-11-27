@@ -12,7 +12,7 @@ import static com.codeborne.selenide.Condition.exactText;
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.*;
 
-public class CardCheckoutPage {
+public class CardDebetPaymentPage {
 
     private final SelenideElement heading = $x("//*[contains(text(),'Оплата по карте')]");
 
@@ -38,7 +38,7 @@ public class CardCheckoutPage {
     private final SelenideElement cardCodeFieldSubMessage =
             fieldSubMessage.find(exactText("CVC/CVV")).parent().$(".input__sub");
 
-    public CardCheckoutPage() {
+    public CardDebetPaymentPage() {
         heading.shouldBe(visible);
     }
 

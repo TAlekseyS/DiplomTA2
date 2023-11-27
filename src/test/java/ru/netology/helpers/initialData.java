@@ -1,6 +1,6 @@
 package ru.netology.helpers;
 
-public class Constants {
+public class initialData {
 
     public static final String APPROVED_STATUS = "APPROVED";
     public static final String DECLINED_STATUS = "DECLINED";

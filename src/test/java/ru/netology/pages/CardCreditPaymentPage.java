@@ -11,7 +11,7 @@ import static com.codeborne.selenide.Condition.exactText;
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.*;
 
-public class CreditCheckoutPage {
+public class CardCreditPaymentPage {
 
     private final SelenideElement heading = $x("//*[contains(text(),'Кредит по данным карты')]");
     private final ElementsCollection form = $$(".form-field .input");
@@ -35,7 +35,7 @@ public class CreditCheckoutPage {
     private final SelenideElement cardCodeFieldSubMessage =
             fieldSubMessage.find(exactText("CVC/CVV")).parent().$(".input__sub");
 
-    public CreditCheckoutPage(){
+    public CardCreditPaymentPage(){
         heading.shouldBe(Condition.visible);
     }
 

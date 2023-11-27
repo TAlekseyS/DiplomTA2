@@ -7,7 +7,7 @@ import io.restassured.http.ContentType;
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
 
-public class RestRequestHelper {
+public class RepeatRequest {
     private static final RequestSpecification requestSpec = new RequestSpecBuilder()
             .setBaseUri("http://localhost")
             .setPort(8080)
