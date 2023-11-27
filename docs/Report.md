@@ -11,13 +11,13 @@
 
 - Всего тест-кейсов: 72
 - Процент успешных тест-кейсов: 80,55%
-![irina_tests_summary_report.png](irina_tests_summary_report.png)
+
 
 - UI автоматизированных тестов: 38
 - API автоматизированных тестов: 34
 
 Перечень "упавших" тест-кейсов: 
-![irina_defect_report.png](irina_defect_report.png)
+
 
 ## 3. Общие рекомендации
 
